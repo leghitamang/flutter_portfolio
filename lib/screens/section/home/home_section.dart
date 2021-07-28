@@ -14,7 +14,7 @@ class HomeSection extends StatelessWidget {
           flex: 3,
           child: Column(
             children: [
-              Expanded(
+              Flexible(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   // color: Colors.red,
@@ -107,20 +107,22 @@ class HomeSection extends StatelessWidget {
       {required String title, required String content}) {
     return Container(
       margin: EdgeInsets.only(right: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          Text(
-            content,
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-        ],
+      child: Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            Text(
+              content,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ],
+        ),
       ),
     );
   }

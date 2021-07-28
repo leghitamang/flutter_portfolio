@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_sabin/routes.dart';
 import 'package:portfolio_sabin/screens/landing/landing_screen.dart';
-
 import 'theme/theme.dart';
 
 void main() {
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Portfolio',
+      title: 'Sabin Pakhrin',
       theme: theme(),
       initialRoute: LandingScreen.routeName,
       routes: routes(),

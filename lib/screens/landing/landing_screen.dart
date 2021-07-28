@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio_sabin/responsive/size_config.dart';
 import 'package:portfolio_sabin/screens/landing/components/navigation_bar.dart';
 import 'package:portfolio_sabin/screens/landing/components/sidebar.dart';
 import 'package:portfolio_sabin/screens/section/about/about_section.dart';
@@ -62,10 +63,11 @@ class _LandingScreenState extends State<LandingScreen>
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: SizeConfig.screenHeight,
+        width: SizeConfig.screenWidth,
         child: Row(
           children: <Widget>[
             SideBar(),
@@ -92,5 +94,12 @@ class _LandingScreenState extends State<LandingScreen>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _tabController!.dispose();
+    _pageController!.dispose();
+    super.dispose();
   }
 }

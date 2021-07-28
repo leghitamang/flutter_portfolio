@@ -15,6 +15,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0
   percent_indicator: ^3.0.1
+  url_launcher: ^6.0.9
 
 
 dev_dependencies:
