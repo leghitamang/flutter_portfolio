@@ -3,6 +3,6 @@ import 'package:portfolio_sabin/screens/landing/landing_screen.dart';
 
 Map<String, WidgetBuilder> routes() {
   return {
-    LandingScreen.routeName: (context) => LandingScreen(),
+    LandingScreen.routeName: (context) => LandingScreen(),  
   };
 }

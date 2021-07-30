@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio_sabin/providers/navigation_provider.dart';
 import 'package:portfolio_sabin/responsive/size_config.dart';
 import 'package:portfolio_sabin/screens/landing/components/navigation_bar.dart';
 import 'package:portfolio_sabin/screens/landing/components/sidebar.dart';
-import 'package:portfolio_sabin/screens/section/about/about_section.dart';
-import 'package:portfolio_sabin/screens/section/contact/contact_section.dart';
-import 'package:portfolio_sabin/screens/section/home/home_section.dart';
-import 'package:portfolio_sabin/screens/section/portfolio/portfolio_section.dart';
-import 'package:portfolio_sabin/screens/section/services/services_section.dart';
+import 'package:portfolio_sabin/screens/mobile%20_section/components/mobile_appBar.dart';
+import 'package:provider/provider.dart';
+
+import 'components/menu_drawer.dart';
 
 class LandingScreen extends StatefulWidget {
   static String routeName = '/';
@@ -18,81 +18,91 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
   TabController? _tabController;
   PageController? _pageController;
 
-  List<NavigationItem> navItems = [
-    NavigationItem(title: 'Home'),
-    NavigationItem(title: 'About'),
-    NavigationItem(title: 'Portfolio'),
-    NavigationItem(title: 'Services'),
-    NavigationItem(title: 'Contact'),
-  ];
-
-  List<Widget> sections = [
-    HomeSection(),
-    AboutSection(),
-    PortfolioSection(),
-    ServicesSection(),
-    ContactSection(),
-  ];
-
   @override
   void initState() {
-    _tabController = TabController(length: navItems.length, vsync: this);
-    _pageController = PageController(initialPage: _selectedIndex);
+    var navigationProvider =
+        Provider.of<NavigationProvider>(context, listen: false);
+    var navItemList = navigationProvider.navAndContentList;
+    _tabController = TabController(length: navItemList.length, vsync: this);
+    _pageController =
+        PageController(initialPage: navigationProvider.selectedIndex);
     super.initState();
-  }
-
-  onTabPressed(index) {
-    changeIndex(index);
-    _pageController!.jumpToPage(_selectedIndex);
-  }
-
-  void onPageChanged(index) {
-    changeIndex(index);
-    _tabController!.animateTo(index);
-  }
-
-  changeIndex(index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    var navigationProvider =
+        Provider.of<NavigationProvider>(context, listen: false);
     SizeConfig().init(context);
-    return Scaffold(
-      body: Container(
-        height: SizeConfig.screenHeight,
-        width: SizeConfig.screenWidth,
-        child: Row(
-          children: <Widget>[
-            SideBar(),
-            Expanded(
-              child: Column(
-                children: [
-                  NavigationBar(
-                    navController: _tabController,
-                    tabs: navItems,
-                    onTap: onTabPressed,
-                  ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth > 950) {
+          return Scaffold(
+            body: Container(
+              height: SizeConfig.screenHeight,
+              width: SizeConfig.screenWidth,
+              child: Row(
+                children: <Widget>[
+                  SideBar(),
                   Expanded(
-                    child: PageView(
-                      controller: _pageController,
-                      physics: NeverScrollableScrollPhysics(),
-                      onPageChanged: onPageChanged,
-                      children: sections,
+                    child: Column(
+                      children: [
+                        NavigationBar(
+                          navController: _tabController,
+                          tabs: navigationProvider.navAndContentList
+                              .map((e) => NavigationItem(
+                                    title: e.navTitle,
+                                  ))
+                              .toList(),
+                          onTap: (index) {
+                            navigationProvider.changeIndex(index);
+                            _pageController!.jumpToPage(index);
+                          },
+                        ),
+                        Expanded(
+                          child: PageView(
+                            controller: _pageController,
+                            physics: NeverScrollableScrollPhysics(),
+                            onPageChanged: (index) {
+                              navigationProvider.changeIndex(index);
+                              _tabController!.animateTo(index);
+                            },
+                            allowImplicitScrolling: true,
+                            children: navigationProvider.navAndContentList
+                                .map((e) => e.content)
+                                .toList(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+        return Scaffold(
+          drawer: MenuDrawer(),
+          body: SafeArea(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              child: Column(
+                children: [
+                  MobileAppBar(),
+                  Consumer<NavigationProvider>(
+                    builder: (context, navigationProvider, child) => Expanded(
+                      child: navigationProvider.mobileContent,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

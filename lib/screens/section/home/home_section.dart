@@ -105,9 +105,9 @@ class HomeSection extends StatelessWidget {
 
   Widget _buildFooterTile(BuildContext context,
       {required String title, required String content}) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      child: Expanded(
+    return Flexible(
+      child: Container(
+        margin: EdgeInsets.only(right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
