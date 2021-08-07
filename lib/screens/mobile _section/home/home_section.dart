@@ -5,6 +5,10 @@ class MobileHomeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Home Section'));
+    return Center(
+        child: Text(
+      'Work in progress for Responsiveness.\n' +
+          'visit this website from pc. Thank you.',
+    ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_sabin/providers/navigation_provider.dart';
+import 'package:portfolio_sabin/providers/tab_controller_provider.dart';
 import 'package:provider/provider.dart';
 
 class MenuDrawer extends StatelessWidget {
@@ -39,6 +40,8 @@ class MobileNavigationItem extends StatelessWidget {
       child: ListTile(title: Text(title)),
       onTap: () {
         navigationProvider.changeIndex(index);
+        final controller = TabControllerProvider.of(context)!.tabController;
+        controller!.animateTo(index);
         Navigator.pop(context);
       },
     );

@@ -48,7 +48,8 @@ class NavigationProvider with ChangeNotifier {
   Widget get mobileContent => navAndContentList[_currentIndex].mobileContent;
 
   String get title => navAndContentList[_currentIndex].navTitle;
-  
+
+  int get navLen => navAndContentList.length;
 
   changeIndex(int index) {
     _currentIndex = index;

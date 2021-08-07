@@ -18,7 +18,7 @@ class NavigationBar extends StatelessWidget {
         children: [
           Expanded(
             flex: 4,
-            child: TabBar(
+            child: TabBar(              
               controller: navController,
               tabs: tabs,
               onTap: onTap,
