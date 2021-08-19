@@ -38,4 +38,10 @@ class _LogoState extends State<Logo> with SingleTickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    super.dispose();
+  }
 }
